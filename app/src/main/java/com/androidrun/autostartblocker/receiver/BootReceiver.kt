@@ -13,8 +13,8 @@ class BootReceiver : BroadcastReceiver() {
         private const val TAG = "BootReceiver"
     }
 
-    override fun onReceive(context: Context, intent: Intent?) {
-        val action = intent?.action ?: return
+    override fun onReceive(context: Context, intent: Intent) {
+        val action = intent.action ?: return
 
         if (action != Intent.ACTION_BOOT_COMPLETED &&
             action != Intent.ACTION_LOCKED_BOOT_COMPLETED
@@ -22,18 +22,20 @@ class BootReceiver : BroadcastReceiver() {
             return
         }
 
-        Log.i(TAG, "Boot event received: $action")
+        Log.i(TAG, "Boot event received: $action — starting AppKillerService")
 
         try {
-            val serviceIntent = Intent(context, AppKillerService::class.java)
+            val serviceIntent = Intent(context, AppKillerService::class.java).apply {
+                putExtra(AppKillerService.EXTRA_SOURCE, "boot")
+            }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 context.startForegroundService(serviceIntent)
             } else {
                 context.startService(serviceIntent)
             }
-            Log.i(TAG, "AppKillerService started as foreground service")
         } catch (e: Exception) {
-            Log.e(TAG, "Could not start foreground service", e)
+            Log.e(TAG, "Failed to start service, scheduling WorkManager fallback", e)
+            AppKillerService.scheduleOneShot(context)
         }
     }
 }
