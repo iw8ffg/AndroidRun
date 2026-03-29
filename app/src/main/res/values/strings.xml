@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AutoStart Blocker</string>
+    <string name="show_system_apps">Show system apps</string>
+    <string name="search_hint">Search apps...</string>
+    <string name="select_all">Select All</string>
+    <string name="deselect_all">Deselect All</string>
+    <string name="app_blocked">Blocked: %1$s</string>
+    <string name="app_unblocked">Unblocked: %1$s</string>
+    <string name="all_apps_blocked">All apps marked as blocked</string>
+    <string name="all_apps_unblocked">All apps unblocked</string>
+    <string name="app_icon_description">App icon</string>
+    <string name="notification_permission_denied">Notification permission denied. You may miss blocking alerts.</string>
+</resources>
